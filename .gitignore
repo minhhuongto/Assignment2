@@ -1,0 +1,48 @@
+# ------------------------------------------------------------------------------
+# Data is deliberately not distributed with this repository.
+# Recreate it by running R/01_collect_data.R (see README.md).
+# The empty folders are kept so the pipeline has somewhere to write.
+# ------------------------------------------------------------------------------
+data/*
+!data/raw/
+!data/processed/
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# ------------------------------------------------------------------------------
+# Credentials. Never commit these.
+# WRDS authentication happens through the local pgpass file, which stays on the
+# machine and is never read by any script in this repository.
+# ------------------------------------------------------------------------------
+.Renviron
+.pgpass
+pgpass.conf
+*.pem
+*.key
+
+# ------------------------------------------------------------------------------
+# R session artefacts
+# ------------------------------------------------------------------------------
+.Rhistory
+.RData
+.Rapp.history
+.Rproj.user/
+.Ruserdata/
+*.Rcheck/
+
+# ------------------------------------------------------------------------------
+# Superseded working files, kept locally but out of the repository.
+# Their code now lives in R/01_collect_data.R.
+# ------------------------------------------------------------------------------
+collect_data_api.R
+AUD_USD_fromRBA.R
+APIConnection.docx
+
+# ------------------------------------------------------------------------------
+# Operating system and Office temporary files
+# ------------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+~$*

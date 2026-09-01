@@ -1,0 +1,9 @@
+"Series","AustralianSuper: Australian shares","AustralianSuper: International shares","AustralianSuper: Fixed income","ART: Australian shares","ART: International shares","ART: Fixed income","Gold, CRSP ETF (AUD)","Gold, ASX ETF (AUD)"
+"AustralianSuper: Australian shares",1,0.6,0.3,0.991,0.576,0.118,-0.306,-0.315
+"AustralianSuper: International shares",0.6,1,0.207,0.608,0.925,0.084,-0.141,-0.154
+"AustralianSuper: Fixed income",0.3,0.207,1,0.304,0.134,0.681,0.041,0.039
+"ART: Australian shares",0.991,0.608,0.304,1,0.575,0.129,-0.304,-0.31
+"ART: International shares",0.576,0.925,0.134,0.575,1,0.102,-0.164,-0.193
+"ART: Fixed income",0.118,0.084,0.681,0.129,0.102,1,0.225,0.207
+"Gold, CRSP ETF (AUD)",-0.306,-0.141,0.041,-0.304,-0.164,0.225,1,0.947
+"Gold, ASX ETF (AUD)",-0.315,-0.154,0.039,-0.31,-0.193,0.207,0.947,1
