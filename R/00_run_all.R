@@ -6,8 +6,7 @@
 #   03_analysis.R        panel            -> results
 #   04_tables_figures.R  results          -> output/
 #
-# Allow 3-5 minutes. Most of that is step 01: ART allows only one investment
-# option per request, and AustralianSuper needs a headless browser.
+# Allow 3-5 minutes.
 # See README.md for the data access requirements.
 
 library(here)

@@ -299,19 +299,25 @@ download_rba_audusd <- function(start_date = NULL,
   return(audusd)
 }
 
-# ART unit prices. The subscription key ships in the fund's own site JavaScript.
-# All three headers are required - a missing correlation id gives 400. Fund
-# codes cannot be batched, hence one request per option. Defaults are 44
-# Australian Shares Index, 32 International Shares Unhedged, 23 Bonds Index.
+# ART unit prices. All three headers are required - a missing correlation id
+# gives 400. Fund codes cannot be batched, hence one request per option.
+# Defaults are 44 Australian Shares Index, 32 International Shares Unhedged,
+# 23 Bonds Index.
 download_art_unit_prices <- function(product_code = "SOL",
                                      fund_codes = c("44", "32", "23"),
+                                     subscription_key = Sys.getenv("ART_SUBSCRIPTION_KEY"),
                                      output_dir = ".") {
   cat("Downloading Australian Retirement Trust unit prices...\n")
+
+  if (!nzchar(subscription_key)) {
+    stop("No ART subscription key. Set ART_SUBSCRIPTION_KEY in .Renviron ",
+         "(see .Renviron.example for where to find the value).")
+  }
 
   base_url <- "https://api.art.com.au/integration/publicweb/v1"
 
   api_headers <- list(
-    "x-art-subscription-key"       = "cd5f1fdb33994fe7ac89d1367d5edba0",
+    "x-art-subscription-key"       = subscription_key,
     "x-art-initiating-application" = "PublicWeb",
     "x-art-correlation-id"         = "00000000-0000-0000-0000-000000000000"
   )

@@ -16,10 +16,10 @@ source and regenerates every output.
 
 ```r
 # 1. Open Assignment2.Rproj in RStudio (this sets the working directory)
-# 2. Install dependencies, once:
+# 2. Copy .Renviron.example to .Renviron and fill in the two values,
+#    then restart R so they are loaded
+# 3. Install dependencies, once:
 source("R/install_packages.R")
-# 3. Set your WRDS username (needed for the primary gold series):
-Sys.setenv(WRDS_USER = "your_wrds_username")
 # 4. Run the whole pipeline:
 source("R/00_run_all.R")
 ```
@@ -70,6 +70,7 @@ Assignment2/
 ├── Assignment2.Rproj          RStudio project; sets the working directory
 ├── README.md                  this file
 ├── .gitignore                 excludes data and credentials
+├── .Renviron.example          template for the two local credentials
 │
 ├── R/
 │   ├── 00_run_all.R           runs steps 01–04 in order
@@ -136,7 +137,7 @@ matter when returns are autocorrelated.
 | # | Source | Series | Access | Requirement |
 |---|--------|--------|--------|-------------|
 | 1 | AustralianSuper | 3 DIY options | Internal API behind a bot filter | **Chrome or Edge must be installed** |
-| 2 | Australian Retirement Trust | 3 DIY options | Undocumented internal API | None; API key is embedded in the fund's site and may be rotated |
+| 2 | Australian Retirement Trust | 3 DIY options | Undocumented internal API | `ART_SUBSCRIPTION_KEY` in `.Renviron`; see `.Renviron.example` |
 | 3 | WRDS / CRSP | Gold ETF (GLD) in USD | PostgreSQL | **Licensed WRDS account required** |
 | 4 | Yahoo Finance | ASX gold ETF (GOLD.AX) | Unofficial public API | None; no service agreement |
 | 5 | Yahoo Finance | Bitcoin (BTC-AUD) | Unofficial public API | None |
@@ -165,7 +166,8 @@ Sys.setenv(CHROMOTE_CHROME = "/path/to/chrome")
 
 Requires an institutional WRDS account with a CRSP subscription.
 Authentication uses the standard WRDS `pgpass` file, so **no password appears
-anywhere in this repository**. Set the username with `WRDS_USER`.
+anywhere in this repository**. The username comes from `WRDS_USER` in
+`.Renviron`.
 
 Without WRDS access the step fails cleanly and the other six series still
 download. The primary gold measure is then missing, but the **ASX gold ETF
@@ -283,8 +285,9 @@ R version 4.6.0 (2026-04-24 ucrt), Windows 11.
 - Analysis (`03`) is separate from presentation (`04`), so changing a figure
   never re-runs the analysis or triggers a download.
 - Every download step is wrapped so one failing source does not stop the others.
-- No credentials in any script. WRDS uses the local `pgpass` file and reads the
-  username from `WRDS_USER`.
+- No credentials in any script. The WRDS username and the ART subscription key
+  come from `.Renviron`, which is gitignored; `.Renviron.example` documents
+  both. The WRDS password never leaves the local `pgpass` file.
 - Table and figure file names match the numbering used in the report.
 
 ---
