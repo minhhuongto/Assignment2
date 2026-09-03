@@ -129,7 +129,7 @@ x-art-initiating-application PublicWeb
 x-art-correlation-id         <any GUID>
 ```
 
-The correlation id is undocumented and easy to miss: without it every request returns HTTP 400, even with a valid subscription key. The subscription key is published in the fund's own client-side JavaScript, but it could be rotated at any time, which would break this step. It is read from `ART_SUBSCRIPTION_KEY` rather than written into the code, so no key is committed; see `.Renviron.example` for where to find the current value.
+The correlation id is undocumented and easy to miss: without it every request returns HTTP 400, even with a valid subscription key. The subscription key is published in the fund's own client-side JavaScript, but it could be rotated at any time, which would break this step. It is read from `ART_SUBSCRIPTION_KEY` rather than written into the code, so no key is committed. To find the current value, open the unit prices page and search the loaded JavaScript bundles for `apimSubscriptionKeyValue`.
 
 **Fund codes used.** Product `SOL` (Accumulation & TTR). The three Asset class options collected:
 

@@ -16,8 +16,8 @@ source and regenerates every output.
 
 ```r
 # 1. Open Assignment2.Rproj in RStudio (this sets the working directory)
-# 2. Copy .Renviron.example to .Renviron and fill in the two values,
-#    then restart R so they are loaded
+# 2. Create a .Renviron file in the project root with two lines
+#    (see Credentials below), then restart R so they are loaded
 # 3. Install dependencies, once:
 source("R/install_packages.R")
 # 4. Run the whole pipeline:
@@ -70,7 +70,6 @@ Assignment2/
 ├── Assignment2.Rproj          RStudio project; sets the working directory
 ├── README.md                  this file
 ├── .gitignore                 excludes data and credentials
-├── .Renviron.example          template for the two local credentials
 │
 ├── R/
 │   ├── 00_run_all.R           runs steps 01–04 in order
@@ -137,7 +136,7 @@ matter when returns are autocorrelated.
 | # | Source | Series | Access | Requirement |
 |---|--------|--------|--------|-------------|
 | 1 | AustralianSuper | 3 DIY options | Internal API behind a bot filter | **Chrome or Edge must be installed** |
-| 2 | Australian Retirement Trust | 3 DIY options | Undocumented internal API | `ART_SUBSCRIPTION_KEY` in `.Renviron`; see `.Renviron.example` |
+| 2 | Australian Retirement Trust | 3 DIY options | Undocumented internal API | `ART_SUBSCRIPTION_KEY` in `.Renviron`; see Credentials below |
 | 3 | WRDS / CRSP | Gold ETF (GLD) in USD | PostgreSQL | **Licensed WRDS account required** |
 | 4 | Yahoo Finance | ASX gold ETF (GOLD.AX) | Unofficial public API | None; no service agreement |
 | 5 | Yahoo Finance | Bitcoin (BTC-AUD) | Unofficial public API | None |
@@ -172,6 +171,25 @@ anywhere in this repository**. The username comes from `WRDS_USER` in
 Without WRDS access the step fails cleanly and the other six series still
 download. The primary gold measure is then missing, but the **ASX gold ETF
 alternative still covers the whole period**, so the analysis can still run.
+
+### Credentials
+
+Two values are read from a `.Renviron` file in the project root. That file is
+excluded by `.gitignore` and is never committed, so nothing sensitive appears in
+this repository. Create it yourself with these two lines:
+
+```
+WRDS_USER=your_wrds_username
+ART_SUBSCRIPTION_KEY=your_art_subscription_key
+```
+
+R reads `.Renviron` when it starts, so **restart R after creating or editing
+it**.
+
+| Variable | What it is | Where to get it |
+|---|---|---|
+| `WRDS_USER` | Your WRDS username. The password is *not* stored here — WRDS authenticates through the `pgpass` file it has you create (`%APPDATA%\postgresql\pgpass.conf` on Windows, `~/.pgpass` elsewhere). | Your WRDS account |
+| `ART_SUBSCRIPTION_KEY` | Key for the Australian Retirement Trust public API. Not secret: it is served in the fund's own website JavaScript. It is kept out of the code so no key is committed. | Open the ART unit prices page and search the loaded JavaScript bundles for `apimSubscriptionKeyValue` |
 
 ---
 
@@ -286,8 +304,8 @@ R version 4.6.0 (2026-04-24 ucrt), Windows 11.
   never re-runs the analysis or triggers a download.
 - Every download step is wrapped so one failing source does not stop the others.
 - No credentials in any script. The WRDS username and the ART subscription key
-  come from `.Renviron`, which is gitignored; `.Renviron.example` documents
-  both. The WRDS password never leaves the local `pgpass` file.
+  come from `.Renviron`, which is gitignored. The WRDS password never leaves
+  the local `pgpass` file.
 - Table and figure file names match the numbering used in the report.
 
 ---

@@ -311,7 +311,7 @@ download_art_unit_prices <- function(product_code = "SOL",
 
   if (!nzchar(subscription_key)) {
     stop("No ART subscription key. Set ART_SUBSCRIPTION_KEY in .Renviron ",
-         "(see .Renviron.example for where to find the value).")
+         "(see the Credentials section of README.md).")
   }
 
   base_url <- "https://api.art.com.au/integration/publicweb/v1"
