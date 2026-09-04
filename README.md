@@ -24,8 +24,7 @@ source("R/install_packages.R")
 source("R/00_run_all.R")
 ```
 
-Roughly 3–5 minutes end to end. Tables appear in `output/tables/`, figures in
-`output/figures/`.
+Tables appear in `output/tables/`, figures in `output/figures/`.
 
 **Before running, read [Data sources and access requirements](#data-sources-and-access-requirements).**
 Two of the seven series need more than an internet connection.
