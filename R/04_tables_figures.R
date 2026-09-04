@@ -185,7 +185,7 @@ fig01 <- ggplot(fig01_data, aes(date, index, colour = label, linetype = type)) +
 ggsave(file.path(fig_dir, "fig01_cumulative_growth.png"), fig01,
        width = 9, height = 6, dpi = 300)
 
-# Figure 2. The two gold proxies overlap, so only the CRSP one is plotted.
+# Figure 2. The two gold proxies overlap, so only the ASX one is plotted.
 # Log axes: Bitcoin is an order of magnitude out on both.
 short_label <- c(
   as_aus_shares   = "AS: Aus shares",
@@ -194,7 +194,7 @@ short_label <- c(
   art_aus_shares  = "ART: Aus shares",
   art_intl_shares = "ART: Intl shares",
   art_bonds       = "ART: Fixed income",
-  gold_crsp_aud   = "Gold (CRSP)",
+  gold_asx_aud    = "Gold (GOLD.AX)",
   btc_aud         = "Bitcoin"
 )
 
@@ -202,13 +202,14 @@ short_label <- c(
 label_nudge <- c(
   as_intl_shares  = 1.45,
   art_intl_shares = 1.18,
-  gold_crsp_aud   = 0.86,
+  gold_asx_aud    = 0.86,
   as_aus_shares   = 0.72,
-  art_aus_shares  = 0.58
+  art_aus_shares  = 0.58,
+  art_bonds       = 0.70
 )
 
 fig02_data <- desc %>%
-  filter(series != "gold_asx_aud") %>%
+  filter(series != "gold_crsp_aud") %>%
   mutate(label = factor(label, levels = lvl),
          short = short_label[series],
          type  = asset_type(label),
@@ -235,7 +236,7 @@ fig02 <- ggplot(fig02_data, aes(ann_sd_pc, ann_mean_pc, colour = type)) +
                 labels = c("0.1", "0.5", "1", "2", "5", "10", "20", "50", "100")) +
   labs(
     title    = "Annualised risk and return",
-    subtitle = "Each point is one investable series. Both axes are logarithmic. Only the primary (CRSP) gold measure is shown.",
+    subtitle = "Each point is one investable series. Both axes are logarithmic. Gold is the ASX-listed ETF (GOLD.AX).",
     x = "Annualised standard deviation (%, log scale)",
     y = "Annualised mean total return (%, log scale)",
     caption = "Whether a test asset sits outside the region already reachable from the benchmark options is what the spanning tests formalise."

@@ -1,5 +1,5 @@
-Pipeline run: 2026-09-01 10:32:53
-Completed   : 2026-09-01 10:34:07
+Pipeline run: 2026-09-04 20:38:25
+Completed   : 2026-09-04 20:39:36
 
 R version 4.6.0 (2026-04-24 ucrt)
 Platform: x86_64-w64-mingw32/x64
@@ -9,9 +9,8 @@ Matrix products: default
   LAPACK version 3.12.1
 
 locale:
-[1] LC_COLLATE=English_Australia.utf8  LC_CTYPE=English_Australia.utf8   
-[3] LC_MONETARY=English_Australia.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=English_Australia.utf8    
+[1] LC_COLLATE=English_Australia.utf8  LC_CTYPE=English_Australia.utf8    LC_MONETARY=English_Australia.utf8
+[4] LC_NUMERIC=C                       LC_TIME=English_Australia.utf8    
 
 time zone: Australia/Sydney
 tzcode source: internal
@@ -20,17 +19,14 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] scales_1.4.0     ggplot2_4.0.3    zoo_1.9-0        tidyr_1.3.2     
- [5] dbplyr_2.6.0     DBI_1.3.0        RPostgres_1.4.10 jsonlite_2.0.0  
- [9] readxl_1.5.0     dplyr_1.2.1      httr2_1.3.0      here_1.0.2      
+ [1] scales_1.4.0     ggplot2_4.0.3    zoo_1.9-0        tidyr_1.3.2      dbplyr_2.6.0     DBI_1.3.0       
+ [7] RPostgres_1.4.10 jsonlite_2.0.0   readxl_1.5.0     dplyr_1.2.1      httr2_1.3.0      here_1.0.2      
 
 loaded via a namespace (and not attached):
- [1] bit_4.6.0          gtable_0.3.6       compiler_4.6.0     tidyselect_1.2.1  
- [5] blob_1.3.0         textshaping_1.0.5  systemfonts_1.3.2  lattice_0.22-9    
- [9] R6_2.6.1           labeling_0.4.3     generics_0.1.4     curl_7.1.0        
-[13] tibble_3.3.1       rprojroot_2.1.1    lubridate_1.9.5    RColorBrewer_1.1-3
-[17] pillar_1.11.1      rlang_1.3.0        S7_0.2.2           bit64_4.8.2       
-[21] otel_0.2.0         timechange_0.4.0   cli_3.6.6          withr_3.0.3       
-[25] magrittr_2.0.5     grid_4.6.0         hms_1.1.4          lifecycle_1.0.5   
-[29] vctrs_0.7.3        glue_1.8.1         farver_2.1.2       cellranger_1.1.0  
-[33] ragg_1.5.2         purrr_1.2.2        tools_4.6.0        pkgconfig_2.0.3   
+ [1] bit_4.6.0          gtable_0.3.6       compiler_4.6.0     tidyselect_1.2.1   blob_1.3.0         textshaping_1.0.5 
+ [7] systemfonts_1.3.2  lattice_0.22-9     R6_2.6.1           labeling_0.4.3     generics_0.1.4     curl_7.1.0        
+[13] tibble_3.3.1       rprojroot_2.1.1    lubridate_1.9.5    RColorBrewer_1.1-3 pillar_1.11.1      rlang_1.3.0       
+[19] S7_0.2.2           bit64_4.8.2        otel_0.2.0         timechange_0.4.0   cli_3.6.6          withr_3.0.3       
+[25] magrittr_2.0.5     grid_4.6.0         rstudioapi_0.19.0  hms_1.1.4          lifecycle_1.0.5    vctrs_0.7.3       
+[31] glue_1.8.1         farver_2.1.2       cellranger_1.1.0   ragg_1.5.2         purrr_1.2.2        tools_4.6.0       
+[37] pkgconfig_2.0.3   

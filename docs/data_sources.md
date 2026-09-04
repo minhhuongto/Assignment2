@@ -1,9 +1,6 @@
----
+------------------------------------------------------------------------
 
-editor_options: 
-  markdown: 
-    wrap: 72
----
+editor_options: markdown: wrap: 72 ---
 
 # Data sources and access requirements
 
@@ -16,7 +13,7 @@ Each entry records what the source is, how it is accessed, what is required to a
 ## 1. Yahoo Finance — gold in AUD
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | **Series** | `GOLD.AX` — Global X Physical Gold ETF, ASX listed, priced in AUD |
 | **Endpoint** | `https://query1.finance.yahoo.com/v8/finance/chart/GOLD.AX` |
 | **Parameters** | `range=max`, `interval=1d` |
@@ -48,7 +45,7 @@ Effect of the two fixes, measured against the CRSP gold series over 203 overlapp
 ## 2. Yahoo Finance — bitcoin in AUD
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | **Series** | `BTC-AUD` — bitcoin priced in Australian dollars |
 | **Endpoint** | `https://query1.finance.yahoo.com/v8/finance/chart/BTC-AUD` |
 | **Access requirement** | None |
@@ -65,7 +62,7 @@ This series begins October 2014 and is the binding constraint on the start of th
 ## 3. Reserve Bank of Australia — AUD/USD
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | **Series** | `FXRUSD` from statistical table F11, Exchange Rates |
 | **Endpoints** | Historical to Dec 2009: `https://www.rba.gov.au/statistics/tables/xls-hist/f11hist-1969-2009.xls` <br> Current from Jan 2010: `https://www.rba.gov.au/statistics/tables/csv/f11-data.csv` |
 | **Access requirement** | None — fully open |
@@ -82,7 +79,7 @@ Observations are dated the **last day** of each month, unlike the Yahoo series.
 ## 4. AustralianSuper — cumulative daily rates
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | **Series** | Cumulative daily returns for 10 investment options, indexed to 1 July 2008 |
 | **Endpoint** | `https://www.australiansuper.com/api/graphs/dailyrates/download/` |
 | **Parameters** | `start`, `end`, `cumulative=True`, `superType=super`, `truncateDecimalPlaces=True`, `outputFilename` |
@@ -92,7 +89,7 @@ Observations are dated the **last day** of each month, unlike the Yahoo series.
 **The access barrier.** The site is behind an Akamai bot filter that returns HTTP 403 to every non-browser client. Confirmed failures:
 
 | Client                                                             | Result |
-|------------------------------------|------------------------------------|
+|--------------------------------------------------------------------|--------|
 | `httr2` with full browser headers                                  | 403    |
 | `download.file(method = "wininet")`                                | 403    |
 | `download.file(method = "libcurl")`                                | 403    |
@@ -112,7 +109,7 @@ Browser paths are currently searched in Windows locations. Set `CHROMOTE_CHROME`
 ## 5. Australian Retirement Trust — unit prices
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | **Series** | Daily entry and exit unit prices for 3 asset-class options |
 | **Base URL** | `https://api.art.com.au/integration/publicweb/v1` |
 | **Endpoints** | `investment/product/funds?productCodes=SOL` <br> `investment/unit-price/product/SOL/effective-dates` <br> `investment/unit-price/history/data?fundCodes=&fromDate=&toDate=` |
@@ -124,12 +121,12 @@ Browser paths are currently searched in Windows locations. Set `CHROMOTE_CHROME`
 **Required headers.** All three are mandatory:
 
 ```         
-x-art-subscription-key       $ART_SUBSCRIPTION_KEY
+x-art-subscription-key       cd5f1fdb33994fe7ac89d1367d5edba0
 x-art-initiating-application PublicWeb
 x-art-correlation-id         <any GUID>
 ```
 
-The correlation id is undocumented and easy to miss: without it every request returns HTTP 400, even with a valid subscription key. The subscription key is published in the fund's own client-side JavaScript, but it could be rotated at any time, which would break this step. It is read from `ART_SUBSCRIPTION_KEY` rather than written into the code, so no key is committed. To find the current value, open the unit prices page and search the loaded JavaScript bundles for `apimSubscriptionKeyValue`.
+The correlation id is undocumented and easy to miss: without it every request returns HTTP 400, even with a valid subscription key. The subscription key is published in the fund's own client-side JavaScript, but it could be rotated at any time, which would break this step.
 
 **Fund codes used.** Product `SOL` (Accumulation & TTR). The three Asset class options collected:
 
@@ -150,7 +147,7 @@ Codes rather than names are used because the API accepts codes, and a name chang
 ## 6. WRDS / CRSP — gold in USD
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | **Series** | SPDR Gold Trust (GLD), permno 90448, CUSIP 78463V10 |
 | **Table** | `crsp.dsf` (CRSP daily stock file) |
 | **Host** | `wrds-pgdata.wharton.upenn.edu:9737`, database `wrds`, `sslmode=require` |
@@ -181,7 +178,7 @@ Sys.setenv(WRDS_USER = "your_wrds_username")
 ## 7. Reserve Bank of Australia — cash rate (risk-free rate)
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | **Series** | `FIRMMCRT` — Cash Rate Target, monthly average, from table F1.1 |
 | **Endpoint** | `https://www.rba.gov.au/statistics/tables/csv/f1.1-data.csv` |
 | **Access requirement** | None — fully open |
@@ -202,7 +199,7 @@ Coverage from August 1990 comfortably spans the study period, which begins in Au
 The single most important thing to know before joining these series: **they do not share a calendar.**
 
 | Series               | Frequency | Dating convention                          |
-|------------------------|------------------------|------------------------|
+|----------------------|-----------|--------------------------------------------|
 | GOLD.AX, BTC-AUD     | Monthly   | Varies; collapsed to month-end in cleaning |
 | AUD/USD (RBA)        | Monthly   | Last day of month                          |
 | AustralianSuper      | Daily     | **Includes weekends**                      |

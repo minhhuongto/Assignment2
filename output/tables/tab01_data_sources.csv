@@ -8,4 +8,4 @@
 "Gold, CRSP ETF (AUD)","CRSP gold ETF in USD (WRDS), converted at the RBA AUD/USD rate","WRDS","2004-12","2024-12",241,"Monthly"
 "Gold, ASX ETF (AUD)","ASX-listed gold ETF, Yahoo Finance","Non-WRDS","2008-02","2026-08",223,"Monthly"
 "Bitcoin (AUD)","Bitcoin BTC-AUD, Yahoo Finance","Non-WRDS","2014-11","2026-08",142,"Monthly"
-"Risk-free rate (monthly)","RBA cash rate target, table F1.1 (FIRMMCRT)","Non-WRDS","1990-08","2026-07",432,"Monthly"
+"Risk-free rate (monthly)","RBA cash rate target, table F1.1 (FIRMMCRT)","Non-WRDS","1990-08","2026-08",433,"Monthly"
