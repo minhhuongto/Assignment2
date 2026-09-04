@@ -239,8 +239,7 @@ fig02 <- ggplot(fig02_data, aes(ann_sd_pc, ann_mean_pc, colour = type)) +
     subtitle = "Each point is one investable series. Both axes are logarithmic. Gold is the ASX-listed ETF (GOLD.AX).",
     x = "Annualised standard deviation (%, log scale)",
     y = "Annualised mean total return (%, log scale)",
-    caption = "Whether a test asset sits outside the region already reachable from the benchmark options is what the spanning tests formalise."
-  ) +
+      ) +
   theme_report +
   theme(legend.position = "bottom")
 
@@ -289,10 +288,8 @@ fig04 <- ggplot(fig04_data, aes(date, correlation, colour = test_asset)) +
                                  "Bitcoin (AUD)"        = "#B2182B")) +
   labs(
     title    = "24-month rolling correlation with Australian shares",
-    subtitle = "Each fund's own Australian shares option is the benchmark",
-    x = NULL, y = "Correlation",
-    caption = "A diversifier is only useful while this line stays low."
-  ) +
+        x = NULL, y = "Correlation",
+      ) +
   theme_report
 
 ggsave(file.path(fig_dir, "fig04_rolling_correlation.png"), fig04,

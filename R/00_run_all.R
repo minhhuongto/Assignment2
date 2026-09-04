@@ -6,7 +6,6 @@
 #   03_analysis.R        panel            -> results
 #   04_tables_figures.R  results          -> output/
 #
-# Allow 3-5 minutes.
 # See README.md for the data access requirements.
 
 library(here)
@@ -27,8 +26,6 @@ for (step in steps) {
   source(here("R", step), echo = FALSE)
 }
 
-# No data is committed, so this file and coverage_report.csv are how a
-# reproduction is checked against ours.
 writeLines(
   c(paste("Pipeline run:", format(started, "%Y-%m-%d %H:%M:%S")),
     paste("Completed   :", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
