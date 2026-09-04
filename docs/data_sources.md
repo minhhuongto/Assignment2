@@ -121,7 +121,7 @@ Browser paths are currently searched in Windows locations. Set `CHROMOTE_CHROME`
 **Required headers.** All three are mandatory:
 
 ```         
-x-art-subscription-key       cd5f1fdb33994fe7ac89d1367d5edba0
+x-art-subscription-key       $ART_SUBSCRIPTION_KEY
 x-art-initiating-application PublicWeb
 x-art-correlation-id         <any GUID>
 ```
