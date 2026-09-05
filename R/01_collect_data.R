@@ -1,5 +1,4 @@
-# Download the raw data series into data/raw/. No filtering or column selection
-# here - that is 02_clean_merge.R. Access requirements are in docs/data_sources.md.
+# Download the raw data series into data/raw/.
 
 library(httr2)
 library(dplyr)
@@ -60,18 +59,15 @@ download_and_save_data <- function(symbol,
   timestamps <- unlist(result$timestamp)
   quote <- result$indicators$quote[[1]]
 
-  # Timestamps are the start of each bar in exchange time. Read in UTC, an ASX
-  # monthly bar opening 2008-01-01 Sydney becomes 2007-12-31, i.e. the wrong month.
+  # Convert ASX timestamps to Sydney time to avoid shifting months.
   exchange_tz <- result$meta$exchangeTimezoneName
   if (is.null(exchange_tz) || !nzchar(exchange_tz)) exchange_tz <- "UTC"
 
-  # Gaps come back as NULL; unlist() would drop them and misalign the columns.
   num_col <- function(x) {
     unlist(lapply(x, function(v) if (is.null(v)) NA_real_ else as.numeric(v)))
   }
 
-  # Kept for reference only. For GOLD.AX Yahoo returns AdjClose identical to
-  # Close and does not adjust for the split; 02_clean_merge.R handles it.
+  # For GOLD.AX Yahoo returns AdjClose identical to Close and does not adjust for the split; 02_clean_merge.R handles it.
   adjclose <- result$indicators$adjclose[[1]]$adjclose
 
   df <- data.frame(
@@ -114,7 +110,6 @@ find_chromium <- function() {
   if (!length(candidates)) NA_character_ else candidates[1]
 }
 
-# Kill only the browsers started with our own throwaway profile.
 stop_browser <- function(profile_tag) {
   script <- sprintf(
     "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -like '*%s*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }",
@@ -149,12 +144,11 @@ browser_download <- function(warm_url, file_url, dest_file, wait_sec = 120) {
 
   if (file.exists(dest_file)) unlink(dest_file)
 
-  # Load a normal page first so the filter's JS challenge leaves its cookies.
+  # Open the website first to save the required cookies.
   system2(chromium, c(args, "--virtual-time-budget=30000", "--dump-dom", q(warm_url)),
           stdout = FALSE, stderr = FALSE)
 
-  # A download-only URL never finishes loading, so run detached and stop once
-  # the file has stopped growing.
+  # Download the file in the background.
   system2(chromium, c(args, q(file_url)), stdout = FALSE, stderr = FALSE, wait = FALSE)
 
   waited <- 0
@@ -175,8 +169,7 @@ browser_download <- function(warm_url, file_url, dest_file, wait_sec = 120) {
   file.exists(dest_file) && file.size(dest_file) > 0
 }
 
-# Cumulative daily returns for AustralianSuper's investment options. The site
-# answers plain HTTP clients with 403, so fall back to a headless browser.
+# Cumulative daily returns for AustralianSuper's investment options.
 download_australiansuper_rates <- function(start = "01/07/2008",
                                            end = format(Sys.Date(), "%d/%m/%Y"),
                                            output_dir = ".") {
@@ -252,8 +245,7 @@ download_rba_audusd <- function(start_date = NULL,
   old_file <- tempfile(fileext = ".xls")
   download.file(url_old, destfile = old_file, mode = "wb", quiet = TRUE)
 
-  # 10 metadata rows precede the header, whose first column is labelled
-  # "Series ID" but holds the dates. FXRUSD is the AUD/USD rate.
+  # 10 metadata rows precede the header. FXRUSD is the AUD/USD rate.
   rba_old <- read_excel(
     old_file,
     sheet = "Data",
@@ -264,7 +256,6 @@ download_rba_audusd <- function(start_date = NULL,
       audusd = as.numeric(FXRUSD)
     )
 
-  # read.csv leaves the dates as text, unlike read_excel.
   rba_new <- read.csv(
     url_new,
     skip = 10,
@@ -290,7 +281,6 @@ download_rba_audusd <- function(start_date = NULL,
 
   write.csv(audusd, output_file, row.names = FALSE)
 
-  # The two files should meet without repeating or dropping a month.
   cat(paste0("  ", min(audusd$date), " to ", max(audusd$date),
              " | duplicate months: ", sum(duplicated(format(audusd$date, "%Y-%m"))),
              ", missing rates: ", sum(is.na(audusd$audusd)), "\n"))
@@ -299,9 +289,8 @@ download_rba_audusd <- function(start_date = NULL,
   return(audusd)
 }
 
-# ART unit prices. All three headers are required - a missing correlation id
-# gives 400. Fund codes cannot be batched, hence one request per option.
-# Defaults are 44 Australian Shares Index, 32 International Shares Unhedged,
+# ART unit prices.
+# Fund_codes: 44 Australian Shares Index, 32 International Shares Unhedged,
 # 23 Bonds Index.
 download_art_unit_prices <- function(product_code = "SOL",
                                      fund_codes = c("44", "32", "23"),
@@ -337,7 +326,6 @@ download_art_unit_prices <- function(product_code = "SOL",
   from_date <- substr(effective$effectiveDates$minDate, 1, 10)
   to_date   <- substr(effective$effectiveDates$maxDate, 1, 10)
 
-  # Dates arrive as "27 Aug 2026", so %b must not depend on the machine locale.
   old_locale <- Sys.getlocale("LC_TIME")
   on.exit(Sys.setlocale("LC_TIME", old_locale), add = TRUE)
   Sys.setlocale("LC_TIME", "C")
@@ -368,7 +356,6 @@ download_art_unit_prices <- function(product_code = "SOL",
 
       if (is.null(csv_text)) next
 
-      # Line 1 is the option name, line 2 the column headings.
       rows <- read.csv(text = csv_text, skip = 1, strip.white = TRUE,
                        stringsAsFactors = FALSE)
 
@@ -399,7 +386,7 @@ download_art_unit_prices <- function(product_code = "SOL",
   return(df)
 }
 
-# CRSP has no spot gold series, so use SPDR Gold Trust (GLD, permno 90448).
+# Use SPDR Gold Trust (GLD, permno 90448) in CRSP.
 # Username comes from WRDS_USER, password from the local pgpass file.
 download_wrds_gold <- function(user = Sys.getenv("WRDS_USER"),
                                permno = 90448,
@@ -457,8 +444,7 @@ download_wrds_gold <- function(user = Sys.getenv("WRDS_USER"),
   return(df)
 }
 
-# Cash rate target, table F1.1 series FIRMMCRT, annual per cent. Same 10
-# metadata rows as F11 but the dates are dd/mm/yyyy, not dd-mmm-yyyy.
+# Cash rate target, table F1.1 series FIRMMCRT, annual per cent. 
 download_rba_cash_rate <- function(output_dir = ".") {
   cat("Downloading RBA cash rate...\n")
 

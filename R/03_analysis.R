@@ -1,10 +1,3 @@
-# Descriptive statistics for the monthly panel, on total returns.
-#
-# Total rather than excess returns, because the spanning tests use total
-# returns: in Huberman-Kandel the restrictions alpha = 0 and delta = 1 - b'i = 0
-# are tested on raw returns, delta standing in for the absent risk-free asset.
-# The cash rate enters only the Sharpe column below.
-
 library(dplyr)
 library(zoo)
 library(here)
@@ -87,8 +80,7 @@ describe <- function(r, rf) {
   # AR(1) matters here because the tests use Newey-West standard errors.
   ar1 <- if (n > 2) stats::cor(r[-n], r[-1]) else NA_real_
 
-  # The only use of the cash rate: a mean-to-SD ratio on raw returns would
-  # not be a Sharpe ratio.
+  # The use of the cash rate is to calculate Sharpe ratio.
   ex   <- r - rf
   s_ex <- stats::sd(ex)
 
@@ -121,8 +113,7 @@ describe_sample <- function(df, cols, sample_name) {
   do.call(rbind, out)
 }
 
-# Bitcoin cannot populate the full window, so full-sample figures for it would
-# just be the matched-sample ones under a longer label.
+# Bitcoin cannot populate the full window, so full-sample figures for it would be the matched-sample ones.
 full_cols <- c(benchmark_cols, gold_primary, gold_alt)
 
 desc_stats <- rbind(
@@ -170,8 +161,6 @@ test_vs_benchmark <- do.call(rbind, lapply(seq_len(nrow(pairs)), function(i) {
 write.csv(test_vs_benchmark, file.path(in_dir, "test_vs_benchmark_correlation.csv"),
           row.names = FALSE)
 
-# A static correlation will not show a diversification benefit that disappears
-# when equities fall, which is when it would be needed.
 window <- 24
 
 roll_pairs <- expand.grid(
@@ -221,8 +210,7 @@ cumulative <- do.call(rbind, cum_list)
 
 write.csv(cumulative, file.path(in_dir, "cumulative_index.csv"), row.names = FALSE)
 
-# The two gold proxies are built from independent sources, so a low correlation
-# here means something in the collection or conversion is wrong.
+# The two gold proxies are built from independent sources to check the accuracy of the data.
 both_gold <- rets[stats::complete.cases(rets[c(gold_primary, gold_alt)]), ]
 
 gold_check <- data.frame(

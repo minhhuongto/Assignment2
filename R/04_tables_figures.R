@@ -1,5 +1,3 @@
-# Tables and figures. File names match the numbering used in the report.
-
 library(ggplot2)
 library(dplyr)
 library(tidyr)
@@ -31,7 +29,6 @@ full_end      <- windows$end[windows$sample == "Full"]
 matched_start <- windows$start[windows$sample == "Matched"]
 matched_end   <- windows$end[windows$sample == "Matched"]
 
-# Presentation order: benchmark options first, then the test assets.
 lvl <- c("AustralianSuper: Australian shares",
          "AustralianSuper: International shares",
          "AustralianSuper: Fixed income",
@@ -186,7 +183,6 @@ ggsave(file.path(fig_dir, "fig01_cumulative_growth.png"), fig01,
        width = 9, height = 6, dpi = 300)
 
 # Figure 2. The two gold proxies overlap, so only the ASX one is plotted.
-# Log axes: Bitcoin is an order of magnitude out on both.
 short_label <- c(
   as_aus_shares   = "AS: Aus shares",
   as_intl_shares  = "AS: Intl shares",
@@ -198,7 +194,6 @@ short_label <- c(
   btc_aud         = "Bitcoin"
 )
 
-# Labels only. Spreads the cluster around 10-17% risk; points do not move.
 label_nudge <- c(
   as_intl_shares  = 1.45,
   art_intl_shares = 1.18,
@@ -325,7 +320,7 @@ fig05 <- ggplot(fig05_data, aes(label, ret_pc, fill = type)) +
 ggsave(file.path(fig_dir, "fig05_return_distributions.png"), fig05,
        width = 9, height = 6, dpi = 300)
 
-# Figure 6. Why the matched sample is so much shorter than the benchmark history.
+# Figure 6. the matched sample is shorter than the benchmark history.
 fig06_data <- coverage %>%
   filter(series != "rf") %>%
   mutate(label = factor(label_of(series), levels = rev(lvl)),
