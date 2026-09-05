@@ -78,7 +78,7 @@ Assignment2/
 │   ├── 04_tables_figures.R    results            -> output/
 │   └── install_packages.R     dependency installer
 │
-├── data/                      not tracked by git; created by the pipeline
+├── data/                      contents not tracked; created by the pipeline
 │   ├── raw/                   sources exactly as downloaded
 │   └── processed/             cleaned series, monthly panel, results
 │
@@ -90,6 +90,10 @@ Assignment2/
     ├── data_sources.md        detailed source and access notes
     └── session_info.txt       R and package versions of the last full run
 ```
+
+Each of these four folders holds a short `README.md` describing what the
+pipeline writes there, so the structure survives in a clone even though the data
+files themselves are not committed.
 
 Raw data is never overwritten. `01_collect_data.R` writes only to `data/raw/`,
 and every filtering, conversion and column decision happens in
