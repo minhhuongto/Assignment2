@@ -1,15 +1,10 @@
 # ------------------------------------------------------------------------------
 # Data is deliberately not distributed with this repository.
 # Recreate it by running R/01_collect_data.R (see README.md).
-# Each folder keeps a README so the structure survives in a clone.
+# data/ is created by the pipeline at run time and is excluded entirely, so it
+# does not appear in a clone.
 # ------------------------------------------------------------------------------
-data/*
-!data/raw/
-!data/processed/
-data/raw/*
-data/processed/*
-!data/raw/README.md
-!data/processed/README.md
+data/
 
 # ------------------------------------------------------------------------------
 # Credentials. Never commit these.
